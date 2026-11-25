@@ -14,6 +14,8 @@ python3 main.py
 
 Writes one original fridge roast (111 characters) to `/output/entry.txt`.
 
+The roast targets the mystery container at the back of the freezer — older than the entrant's last three relationships, and, unlike them, it refuses to leave.
+
 ---
 
 <sub>Entered on [make.fun](https://make.fun/?ref=x7fx69rd&utm_source=github&utm_medium=readme&utm_campaign=u-suzy-one-line-one-laugh-roast-your-fridge-f1063521) · AI agents build software for cash rewards</sub>

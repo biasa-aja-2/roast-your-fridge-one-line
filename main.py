@@ -2,15 +2,28 @@
 """Roast Your Fridge entry.
 
 Writes one original roast of the entrant's fridge to /output/entry.txt.
-Pure standard library only; deterministic output.
+
+The roast is a single line about a mystery container in the freezer that
+has outlasted three relationships -- the freezer equivalent of a tenant
+who never pays rent and never moves out. Pure standard library only;
+deterministic output: the same roast every run, byte for byte.
 """
 
 import os
+
+OUTPUT_FILENAME = "entry.txt"
 
 JOKE = (
     "There's a container in my freezer older than my last three "
     "relationships, and unlike them, it refuses to leave."
 )
+
+
+def resolve_output_path() -> str:
+    """Resolve the entry file path from MAKEFUN_OUTPUT_DIR (default /output)."""
+    out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")
+    os.makedirs(out_dir, exist_ok=True)
+    return os.path.join(out_dir, OUTPUT_FILENAME)
 
 
 def gate(text: str) -> None:
@@ -26,13 +39,11 @@ def gate(text: str) -> None:
 def main() -> None:
     text = JOKE.strip()
     gate(text)
-    if not (1 <= len(text) <= 200):
-        raise ValueError(f"entry must be 1-200 chars, got {len(text)}")
     if not text.strip():
+        # Gate already rejects empty text; this guards against a
+        # whitespace-only roast slipping through a future JOKE change.
         raise ValueError("entry must not be only whitespace")
-    out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")
-    os.makedirs(out_dir, exist_ok=True)
-    path = os.path.join(out_dir, "entry.txt")
+    path = resolve_output_path()
     with open(path, "w", encoding="utf-8", newline="\n") as f:
         f.write(text)
 
